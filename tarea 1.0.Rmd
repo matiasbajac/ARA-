@@ -1,11 +1,14 @@
 ---
 title: "tarea 1"
-author: "Matias Bajac"
+author: "Gabriel Bermudez, Matias Bajac"
 date: '2025-06-12'
 output:
   pdf_document: default
   html_document: default
+header-includes:
+  - \usepackage{cancel}
 ---
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -17,9 +20,72 @@ $$\frac{[\lambda^{x_1} \lambda^{x_2}... \lambda^{xn}][e^{-\lambda} e^{-\lambda}.
 
 2) Compute the Maximum Likelihood Estimator (MLE) $\hat{\lambda}_{MLE}$ of $\lambda$ given $\underline{X}$.
 $$
-\begin{align}
+\begin{aligned}
  &  \ell(\lambda \mid \underline{X}) = \sum X_{i}\ln(\lambda) - \lambda n \\ \\
  &  \frac{ \partial\ \ell(\lambda \mid \underline{X}) }{ \partial \lambda } = \frac{\sum X_{i}}{\lambda} -  n = 0 \iff \lambda = \frac{\sum{X_{i}}}{n} \\ \\
 &  \implies \boxed{\hat{\lambda} = \bar{X}}
-\end{align}
+\end{aligned}
 $$
+3) Choose (and justify your choice) the functional form of the prior distribution on $\lambda$ considering one of the distributions presented in class, i.e Gaussian (Normal), Gamma,Exponential, Beta,Uniform
+
+Debido a que el soporte de  la distribución Poisson es $\lambda > 0$ , es razonable pensar que una priori conjugada para $\lambda$ podria ser una priori  $\lambda \sim Gamma (\alpha,\beta)$ con soporte $\alpha >0 \ y\ \beta>0$.
+
+4) Compute the posterior distribution of $\lambda$ and a Bayesian estimator $\hat{\lambda}_{PO}$
+
+$$
+\begin{aligned}
+& f(\lambda/x_1,x_2,...,x_n) \propto f(\lambda)f(\vec {x} / \lambda) \propto\lambda^{\alpha -1}e^{-\beta \lambda} \lambda^{\sum xi}e^{-\lambda n} \propto \\ 
+& e^{-\lambda n -\beta \lambda} \lambda^{\alpha-1 + \sum_{i=1}^n x_i} \propto e^{\lambda(n + \beta)} \lambda^{\alpha-1 +\sum_{i=1}^nx_i}\\
+& \lambda / x_1,..,x_n \sim Gamma(\alpha,\sum_{i=1}^nx_i,n + \beta)
+\end{aligned}
+$$
+Bajo pérdida cuadratica, el estimador bayesiano es la media a posteriori
+
+$$
+\begin{aligned}
+& \hat{\lambda}_{PO} = E(\lambda / \vec{X}) = \frac{\alpha + \sum_{i=1}^nx_i}{\beta + n}
+\end{aligned}
+$$
+5) (Optional) Comment about what happens too $\hat{\lambda}_{PO}$ when (like done in class)
+
+- letting the prior variance going to 0
+
+- letting the prior variance going to $\infty$
+
+- letting the sample size going to $\infty$
+
+
+$$
+\begin{aligned}
+media \ a \ priori \  \hat{\lambda}  = \frac{\alpha k + \sum_{i=1}^n x_i}{\beta_k +n}
+\end{aligned}
+$$
+
+
+
+
+$$
+\begin{aligned}
+& k \rightarrow 0 \ \text{varianza a priori} \rightarrow \infty \rightarrow \hat{\lambda} \rightarrow \sum_{i=1}^n \frac{x_i}{n} = \bar{x} \sim \text{EMV} \\
+& k \rightarrow \infty \ \text{varianza a priori} \rightarrow 0 \rightarrow \hat{\lambda} \rightarrow  \frac{\alpha}{\beta} \rightarrow \text{media a priori} \\
+& n \rightarrow \infty \rightarrow \hat{\lambda} \sim \frac{\alpha + \cancel{n} \bar{x}}{\beta + \cancel{n}} \rightarrow \bar{x} \sim \text{EMV}
+\end{aligned}
+$$
+
+6) Compute the posterior predictive distribution for a next observation $X_{n+1}$ given the sample X
+
+$$
+\begin{aligned}
+& fX_{n +1}(X_{n+1}/X) = \int_{0}^{\infty} \underbrace{\frac{\lambda^{ x_n +1}e^{-\lambda}}{x_{n+1}!}}_{f(x_{n+1/\lambda})} \underbrace{\frac{(n + \beta)}{\Gamma{\alpha+ \sum x_i}}^{\alpha +\sum x_i}  \lambda^{\alpha +\sum x_i -1 }e^{-\lambda(n + \beta)}}_{f(\lambda/X=x)}  d\lambda = \\
+& \frac{(n+\beta)^{\alpha +\sum x_i}}{\Gamma{\alpha +\sum x_i}}\frac{1}{x_{n+1!}} \int_{0}^{\infty} \lambda^{ x_{n+1} -1 + \alpha +\sum x_i} e^{-\lambda(1 + \beta + n)} d \lambda  \\
+\end{aligned}
+$$
+7) Describe, in your words, why MLE and posterior mean are sound choices as estimators of a parameter 
+
+El estimador máximo verosimil da la media muestral el cual parece ser una buena eleccion en inferencia clásica   ya que   usa unicamente la información de los datos,  dando como resultado un estadistico de resumen   mientras tanto  en un   enfoque bayesiano,  la media a posteriori (pérdida cuadratica) incorpora la información a priori además de la verosimilitud de los datos.
+
+
+
+
+
+

@@ -1,0 +1,19 @@
+---
+title: "Tarea 1"
+author: "Matias Bajac"
+date: '2025-06-12'
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1) $$f(x_1,x_2...,x_n | \lambda) = f(\vec{x} | \lambda) = \prod_{i=1}^{n} \frac{\lambda^{x_i}e^{-\lambda}}{x!}
+f(\vec{x}/ \lambda) = \frac{\lambda^{x_1} e^{-\lambda}}{x_1!}\frac{\lambda^{x_2} e^{-\lambda}}{x_2!} .. . \frac{\lambda^{x_n}e^{\lambda}}{x!}=$$
+$$\frac{[\lambda^{x_1} \lambda^{x_2}... \lambda^{xn}][e^{-\lambda} e^{-\lambda}...e^{-\lambda}]}{x_n!} =\frac{\lambda^{\sum_{i=1}^nx_i}e^{-\lambda n}}{\prod_{i=1}^nx_i!}$$
+2) 
+2)
+
