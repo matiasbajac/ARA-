@@ -18,17 +18,24 @@ knitr::opts_chunk$set(echo = TRUE)
 f(\vec{x}/ \lambda) = \frac{\lambda^{x_1} e^{-\lambda}}{x_1!}\frac{\lambda^{x_2} e^{-\lambda}}{x_2!} .. . \frac{\lambda^{x_n}e^{\lambda}}{x!}=$$
 $$\frac{[\lambda^{x_1} \lambda^{x_2}... \lambda^{xn}][e^{-\lambda} e^{-\lambda}...e^{-\lambda}]}{x_n!} =\frac{\lambda^{\sum_{i=1}^nx_i}e^{-\lambda n}}{\prod_{i=1}^nx_i!}$$
 
+---
+
 2) Compute the Maximum Likelihood Estimator (MLE) $\hat{\lambda}_{MLE}$ of $\lambda$ given $\underline{X}$.
 $$
 \begin{aligned}
  &  \ell(\lambda \mid \underline{X}) = \sum X_{i}\ln(\lambda) - \lambda n \\ \\
  &  \frac{ \partial\ \ell(\lambda \mid \underline{X}) }{ \partial \lambda } = \frac{\sum X_{i}}{\lambda} -  n = 0 \iff \lambda = \frac{\sum{X_{i}}}{n} \\ \\
-&  \implies \boxed{\hat{\lambda} = \bar{X}}
+&  \implies \boxed{\hat{\lambda}_{MLE} = \bar{X}}
 \end{aligned}
 $$
+
+---
+
 3) Choose (and justify your choice) the functional form of the prior distribution on $\lambda$ considering one of the distributions presented in class, i.e Gaussian (Normal), Gamma,Exponential, Beta,Uniform
 
 Debido a que el soporte de  la distribución Poisson es $\lambda > 0$ , es razonable pensar que una priori conjugada para $\lambda$ podria ser una priori  $\lambda \sim Gamma (\alpha,\beta)$ con soporte $\alpha >0 \ y\ \beta>0$.
+
+---
 
 4) Compute the posterior distribution of $\lambda$ and a Bayesian estimator $\hat{\lambda}_{PO}$
 
@@ -46,6 +53,9 @@ $$
 & \hat{\lambda}_{PO} = E(\lambda / \vec{X}) = \frac{\alpha + \sum_{i=1}^nx_i}{\beta + n}
 \end{aligned}
 $$
+
+---
+
 5) (Optional) Comment about what happens too $\hat{\lambda}_{PO}$ when (like done in class)
 
 - letting the prior variance going to 0
@@ -62,8 +72,6 @@ media \ a \ priori \  \hat{\lambda}  = \frac{\alpha k + \sum_{i=1}^n x_i}{\beta_
 $$
 
 
-
-
 $$
 \begin{aligned}
 & k \rightarrow 0 \ \text{varianza a priori} \rightarrow \infty \rightarrow \hat{\lambda} \rightarrow \sum_{i=1}^n \frac{x_i}{n} = \bar{x} \sim \text{EMV} \\
@@ -71,6 +79,8 @@ $$
 & n \rightarrow \infty \rightarrow \hat{\lambda} \sim \frac{\alpha + \cancel{n} \bar{x}}{\beta + \cancel{n}} \rightarrow \bar{x} \sim \text{EMV}
 \end{aligned}
 $$
+
+---
 
 6) Compute the posterior predictive distribution for a next observation $X_{n+1}$ given the sample X
 
@@ -80,9 +90,52 @@ $$
 & \frac{(n+\beta)^{\alpha +\sum x_i}}{\Gamma{\alpha +\sum x_i}}\frac{1}{x_{n+1!}} \int_{0}^{\infty} \lambda^{ x_{n+1} -1 + \alpha +\sum x_i} e^{-\lambda(1 + \beta + n)} d \lambda  \\
 \end{aligned}
 $$
+
+---
+
 7) Describe, in your words, why MLE and posterior mean are sound choices as estimators of a parameter 
 
 El estimador máximo verosimil da la media muestral el cual parece ser una buena eleccion en inferencia clásica   ya que   usa unicamente la información de los datos,  dando como resultado un estadistico de resumen   mientras tanto  en un   enfoque bayesiano,  la media a posteriori (pérdida cuadratica) incorpora la información a priori además de la verosimilitud de los datos.
+
+---
+
+9) (Optional) You will do the exercise considering i.i.d. Poisson distributions but you should comment about such choice, i.e. on the assumptions that we are making considering Poisson and considering i.i.d.. Are they completely justified or not? If not, what are the critical aspects?
+
+Considering that the Poisson Distribution is only defined for positive and discrete values, this aligns with the data we have: because of course there can't be negative deaths or a fraction of them. 
+Also, the Poisson Distribution is skewed to the right, more notoriously when the mean is *small*, meaning there is a bigger probability mass at the lower values of *number of deaths*, which makes sense with the situation we are modelling as well.
+
+---
+
+10) Compute the MLE of $\lambda$.
+
+En el ejercicio número 2 se llegó a la conclusión que si los datos siguen una distribución de Poisson, entonces el MLE de $\lambda$ es igual a la **media muestra**.
+En este caso:
+$$
+\hat{\lambda}_{MLE} = \bar{X} = 10
+$$
+
+---
+
+11. Based on your experience in your home country, assign the parameters to the prior distribution on $\lambda$. As in class, it might be useful to think what is the ”physical meaning” of $\lambda$ and then think of its possible value, to be considered as a mean, and a trust on such assessment, which could be considered as a variance.
+
+Teniendo en cuenta que:
+- En 2024 se registraron casi 15 muertes en accidentes automovilísticos por 100,000 habitantes en Uruguay, y 
+- Que esperamos que este año sea mejor en este sentido, 
+
+Vamos a querer que la prior mean de $\pi(\lambda)$ sea 14. Recordando que elegimos como distribución a priori una Gamma ($\mathcal{G}(\alpha,\beta)$), podemos plantear la siguiente igualdad:
+$$
+\begin{aligned}
+\mathbb{E}\left[ \pi(\lambda) \right] = \frac{\alpha}{\beta} & = 14\\ \\
+\alpha &= 14\beta \\ \\
+\implies (\alpha, \beta) & = (14,1)
+\end{aligned}
+$$
+Lo que nos deja con una confianza (Trust) en nuestra estimación de:
+$$
+\mathbb{V}(\pi(\lambda)) = \frac{\alpha}{\beta^{2}} = 14 \implies \text{sd (`Trust')} = \sqrt{ 14 } \simeq 3.74
+$$
+
+
 
 
 

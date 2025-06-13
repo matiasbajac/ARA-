@@ -1,0 +1,55 @@
+---
+title: "Ej8yMas"
+format: html
+---
+
+```{r}
+library(tidyverse)
+```
+
+Consider the following data which will be modelled by independent and identically distributed Poisson distributions P(λ). The data are (rounded) number of deaths for car accidents for 100,000 inhabitants (Source: Wikipedia):
+
+```{r}
+carDeaths = data.frame(
+  Country = c("Italy", "Kuwait", "United States", "The Netherlands", "Brazil", "China", "Egypt", "Japan", "New Zealand", "Romania"),
+  nDeaths = c(5, 15, 13, 4, 16, 17, 10, 2, 8, 10)
+)
+
+carDeaths %>% mutate(nDeaths = nDeaths %>% as.numeric()) -> carDeaths
+```
+
+
+9) (Optional) You will do the exercise considering i.i.d. Poisson distributions but you should comment about such choice, i.e. on the assumptions that we are making considering Poisson and considering i.i.d.. Are they completely justified or not? If not, what are the critical aspects?
+
+Considering that the Poisson Distribution is only defined for positive and discrete values, this aligns with the data we have: because of course there can't be negative deaths or a fraction of them. 
+Also, the Poisson Distribution is skewed to the right, more notoriously when the mean is *small*, meaning there is a bigger probability mass at the lower values of *number of deaths*, which makes sense with the situation we are modelling as well.
+
+10) Compute the MLE of $\lambda$.
+
+En el ejercicio número 2 se llegó a la conclusión que si los datos siguen una distribución de Poisson, entonces el MLE de $\lambda$ es igual a la **media muestra**.
+En este caso:
+$$
+\hat{\lambda}_{MLE} = \bar{X} = 10
+$$
+
+11. Based on your experience in your home country, assign the parameters to the prior distribution on λ. As in class, it might be useful to think what is the ”physical meaning” of λ and then think of its possible value, to be considered as a mean, and a trust on such assessment, which could be considered as a variance.
+
+Teniendo en cuenta que:
+- En 2024 se registraron casi 15 muertes en accidentes automovilísticos por 100,000 habitantes en Uruguay, y 
+- Que esperamos que este año sea mejor en este sentido, 
+
+Vamos a querer que la prior mean de $\pi(\lambda)$ sea 14. Recordando que elegimos como distribución a priori una Gamma ($\mathcal{G}(\alpha,\beta)$), podemos plantear la siguiente igualdad:
+$$
+\begin{align}
+\mathbb{E}\left[ \pi(\lambda) \right] = \frac{\alpha}{\beta} & = 14\\ \\
+\alpha &= 14\beta \\ \\
+\implies (\alpha, \beta) & = (14,1)
+\end{align}
+$$
+Lo que nos deja con una confianza (Trust) en nuestra estimación de:
+$$
+\mathbb{V}(\pi(\lambda)) = \frac{\alpha}{\beta^{2}} = 14 \implies \text{sd (`Trust')} = \sqrt{ 14 } \simeq 3.74
+$$
+
+
+
