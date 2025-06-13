@@ -14,3 +14,12 @@ knitr::opts_chunk$set(echo = TRUE)
 1) $$f(x_1,x_2...,x_n | \lambda) = f(\vec{x} | \lambda) = \prod_{i=1}^{n} \frac{\lambda^{x_i}e^{-\lambda}}{x!}
 f(\vec{x}/ \lambda) = \frac{\lambda^{x_1} e^{-\lambda}}{x_1!}\frac{\lambda^{x_2} e^{-\lambda}}{x_2!} .. . \frac{\lambda^{x_n}e^{\lambda}}{x!}=$$
 $$\frac{[\lambda^{x_1} \lambda^{x_2}... \lambda^{xn}][e^{-\lambda} e^{-\lambda}...e^{-\lambda}]}{x_n!} =\frac{\lambda^{\sum_{i=1}^nx_i}e^{-\lambda n}}{\prod_{i=1}^nx_i!}$$
+
+2) Compute the Maximum Likelihood Estimator (MLE) $\hat{\lambda}_{MLE}$ of $\lambda$ given $\underline{X}$.
+$$
+\begin{align}
+ &  \ell(\lambda \mid \underline{X}) = \sum X_{i}\ln(\lambda) - \lambda n \\ \\
+ &  \frac{ \partial\ \ell(\lambda \mid \underline{X}) }{ \partial \lambda } = \frac{\sum X_{i}}{\lambda} -  n = 0 \iff \lambda = \frac{\sum{X_{i}}}{n} \\ \\
+&  \implies \boxed{\hat{\lambda} = \bar{X}}
+\end{align}
+$$
