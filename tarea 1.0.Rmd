@@ -1,6 +1,8 @@
 ---
-title: "tarea 1"
-author: "Gabriel Bermudez, Matias Bajac"
+title: "Tarea 1"
+subtitle: "Fundamentos de Análisis Bayesiano y Análisis de Riesgos
+Adversarios"
+author: "Gabriel Bermudez (C.I. 5.242.985-8), Matias Bajac (C.I. 5.448.679-3)"
 date: '2025-06-12'
 output:
   pdf_document: default
@@ -14,9 +16,19 @@ header-includes:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-1) $$f(x_1,x_2...,x_n | \lambda) = f(\vec{x} | \lambda) = \prod_{i=1}^{n} \frac{\lambda^{x_i}e^{-\lambda}}{x!}
-f(\vec{x}/ \lambda) = \frac{\lambda^{x_1} e^{-\lambda}}{x_1!}\frac{\lambda^{x_2} e^{-\lambda}}{x_2!} .. . \frac{\lambda^{x_n}e^{\lambda}}{x!}=$$
-$$\frac{[\lambda^{x_1} \lambda^{x_2}... \lambda^{xn}][e^{-\lambda} e^{-\lambda}...e^{-\lambda}]}{x_n!} =\frac{\lambda^{\sum_{i=1}^nx_i}e^{-\lambda n}}{\prod_{i=1}^nx_i!}$$
+Consider a sample $\underline{X} = (X_{1}, X_{2}, \dots, X_{n})$ from a Poisson distribution $\mathcal{P}(\lambda)$, with density $f(x) = \frac{\lambda^{x}}{x!}e^{-\lambda}$ with $x \in \mathbb{N}$ and $\lambda>0$.
+
+---
+
+1) Write the likelihood based on the sample $\underline{X}$. 
+
+$$
+\begin{aligned}
+f(x_1,x_2...,x_n | \lambda) & = f(\vec{x} | \lambda) = \prod_{i=1}^{n} \frac{\lambda^{x_i}e^{-\lambda}}{x!}
+f(\vec{x}/ \lambda) = \frac{\lambda^{x_1} e^{-\lambda}}{x_1!}\frac{\lambda^{x_2} e^{-\lambda}}{x_2!} \cdots \frac{\lambda^{x_n}e^{\lambda}}{x!} = \\ \\
+ & = \frac{[\lambda^{x_1} \lambda^{x_2}... \lambda^{xn}][e^{-\lambda} e^{-\lambda}...e^{-\lambda}]}{x_n!} =\frac{\lambda^{\sum_{i=1}^nx_i}e^{-\lambda n}}{\prod_{i=1}^nx_i!}
+\end{aligned}
+$$
 
 ---
 
@@ -101,8 +113,8 @@ El estimador máximo verosimil da la media muestral el cual parece ser una buena
 
 9) (Optional) You will do the exercise considering i.i.d. Poisson distributions but you should comment about such choice, i.e. on the assumptions that we are making considering Poisson and considering i.i.d.. Are they completely justified or not? If not, what are the critical aspects?
 
-Considering that the Poisson Distribution is only defined for positive and discrete values, this aligns with the data we have: because of course there can't be negative deaths or a fraction of them. 
-Also, the Poisson Distribution is skewed to the right, more notoriously when the mean is *small*, meaning there is a bigger probability mass at the lower values of *number of deaths*, which makes sense with the situation we are modelling as well.
+Considerando que la distribución Poisson está definida solo para valores positivos y discretos, esto se alinea con los datos que tenemos: Claramente no puede haber una cantidad negativa de muertos ni una fraccion de ellos.
+Además, la distribución Poisson es asimétrica hacia la derecha, más notoriamente si $\lambda$ es *chico*, lo que significa que sobre los valores bajos de $X$ se concentra una mayor masa de probabilidad, cosa que también tiene sentido con la situación que se está modelando.
 
 ---
 
@@ -116,7 +128,7 @@ $$
 
 ---
 
-11. Based on your experience in your home country, assign the parameters to the prior distribution on $\lambda$. As in class, it might be useful to think what is the ”physical meaning” of $\lambda$ and then think of its possible value, to be considered as a mean, and a trust on such assessment, which could be considered as a variance.
+11) Based on your experience in your home country, assign the parameters to the prior distribution on $\lambda$. As in class, it might be useful to think what is the ”physical meaning” of $\lambda$ and then think of its possible value, to be considered as a mean, and a trust on such assessment, which could be considered as a variance.
 
 Teniendo en cuenta que:
 - En 2024 se registraron casi 15 muertes en accidentes automovilísticos por 100,000 habitantes en Uruguay, y 
@@ -135,13 +147,52 @@ $$
 \mathbb{V}(\pi(\lambda)) = \frac{\alpha}{\beta^{2}} = 14 \implies \text{sd (`Trust')} = \sqrt{ 14 } \simeq 3.74
 $$
 
+---
 
-12) Compute the posterior mean of λ using your elicited prior (elicitation
+12) Compute the posterior mean of $\lambda$ using your elicited prior (elicitation
 = process leading to the choice of a prior)
-Haciendo un update a nuestra distribucion a posteriori, podemos obtener los parametros mediante los datos y la priori 
 
-dado que $\alpha = 14$ y $\beta = 1$  y la la suma de casos de muerte cada 100,000  (n) habitantes es 15 $(\sum x_i )$,  es facil sacar los parametros a posteriori 
+En nuestro caso, como $\alpha=14$, $\beta=1$, $\sum X_{i}=100$ y $n=10$:
 
-$$\hat{\lambda_{PO}} = E(\lambda/X) = \frac{14 + 15}{1 + 100.000} = 0.0002$$
+$$
+\begin{aligned}
+ & \implies\pi(\lambda \mid\underline{X}) \sim \mathcal{G}\Bigg( \underbrace{ \sum X_{i} }_{ 100 } + \underbrace{ \alpha }_{ 14 },\ \underbrace{ n }_{ 10 } + \underbrace{ \beta }_{ 1 } \Bigg) = \mathcal{G}\left( 114, 11 \right)  \\ \\
+ & \implies \boxed{\mathbb{E}\left[ \pi(\lambda \mid\underline{X}) \right] =\frac{114}{11}= 10.36}
+\end{aligned}
+$$
 
-`
+---
+
+13) (Optional) Try some different values of the parameters and comment what happens to the posterior mean.
+
+Si $\displaystyle{(\alpha, \beta) = (42, 3) \implies \pi(\lambda \mid\underline{X})\sim \mathcal{G}\left( \sum X_{i}+42, n+3 \right) = \mathcal{G}\left( 142, 13 \right)}$
+Por lo tanto, $\mathbb{E}\left[ \pi(\lambda \mid\underline{X}) \right] = \frac{142}{13}=10.92$
+
+Al aumentar los parámetros de la $\mathcal{G}(\alpha, \beta)$,  la esperanza el parámetro $\lambda$ también aumenta, lo que se refleja en una estimación más grande.
+
+---
+
+15 ) (Optional) For those who know R, look for (and use!) the very simple commands which allow you to build a 95% credible interval for $\lambda$, using the previous data and your prior distribution.
+
+$$
+\begin{aligned}
+ & \pi(\lambda) \sim \mathcal{G}\left( \alpha, \beta \right) \\ \\
+\to\ & \mathbb{E}[\pi(\lambda)] = \frac{\alpha}{\beta} = 14\\
+\to\ & \mathbb{V}[\pi(\lambda)] = \frac{\alpha}{\beta^{2}} = 7 \\ \\
+\implies\  & Z = \frac{\lambda-14}{\sqrt{ 7 }} \sim N(0,1) \\ \\
+ & P\left( -1.96 < \frac{\lambda-14}{\sqrt{ 7 }} < 1.96 \right) = 0.95 \\\\
+\implies  & \boxed{\left( 14 - 1.96\sqrt{ 7 },\ 14 + 1.96\sqrt{ 14 } \right)}
+\end{aligned}
+$$
+Es el intervalo de credibilidad al 95% para $\lambda$
+
+```{r}
+#| echo: true
+
+ICi = 14 - 1.96*sqrt(7)
+ICd = 14 + 1.96*sqrt(7)
+
+paste("[ ", round(ICi), ", ", round(ICd), " ]", sep = "")
+``` 
+
+
