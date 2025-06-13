@@ -136,9 +136,12 @@ $$
 $$
 
 
+12) Compute the posterior mean of λ using your elicited prior (elicitation
+= process leading to the choice of a prior)
+Haciendo un update a nuestra distribucion a posteriori, podemos obtener los parametros mediante los datos y la priori 
 
+dado que $\alpha = 14$ y $\beta = 1$  y la la suma de casos de muerte cada 100,000  (n) habitantes es 15 $(\sum x_i )$,  es facil sacar los parametros a posteriori 
 
+$$\hat{\lambda_{PO}} = E(\lambda/X) = \frac{14 + 15}{1 + 100.000} = 0.0002$$
 
-
-
-
+`
