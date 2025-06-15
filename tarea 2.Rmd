@@ -1,0 +1,83 @@
+---
+title: "Untitled"
+author: "Matias Bajac"
+date: '2025-06-15'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+$$E(u_D(d_B)) > E(u_D(d_T)) \ por \ lo \ que\  d^{*} = d_B$$
+Es decir, la mejor decision para el defensor es envir a la policia a la estación de buses, porque el atacante tiene mayor probabilidades de atacar ahi, el es costo esperado de equivocarse es menor que la alternativa.
+
+5) Now we consdier A as expected utility maximisers and present their optimisation problem, i.e., the search for the optimal attack $a^{*}$
+
+$$a^{*} = arg max_{ a \in A} \sum_{d \in D, s \in S} u_A(d,a,s)f_A(s|d,a) \pi_A(a)$$
+
+dado el supuesto de que las utildiades $u_D = -u_A$ y las probabilidades $f_{A}(s|d,a) = f_D(s|d,a)$
+Podemos tener una informacion a priori de que D tiene preferencias en defender los buses en un 90% es decir $\pi_A(a = a_b) = 0.90 \ y \ \pi_D(a = a_t) = 0.1$.
+
+
+$$caso \ 1: \ donde \ d \ = d_b , por \ lo \ que \ \pi_A(a = a_b) = 0.80\, \  a= a_b \ y \ d = a \\
+ u(db,ab,S=1) P(S = 1 | d,a) \pi_D(a=a_b) = 40(0.30)(\pi_D(a=a_b))  = 12\pi_D(a=a_b) \\
+  u(db,ab,S=0) P(S = 0 | d,a) \pi_D(a=a_b) = -30(0.70)(\pi_D(a=a_b))  =\\ 
+  -21\pi_D 
+  (a=a_b) = 0.9(-21+12) = -8.1$$
+  
+ $$caso 2: \ donde \  d = d_t por lo que \pi_A(a = a_t) =0.20\, \ a= a_t y \ d \neq a \\
+ u(db,at,S=1) P(S = 1 | d,a) \pi_D(a = a_t)= 100(0.90) \pi_D(a=_t) = 90 \\
+ u(db,at,S=0) P(S = 0 | d,a) \pi_D(a = a_t)= -10(0.1) \pi_D(a=_t) = -1 \\
+ \sum_{a=a_t \ d \neq a}\pi_D(a_t) = \pi_D(a_t)(90 -1) = 0.10(89) = 8.9$$
+ 
+ 
+ $$Por \  \ lo \ que \ E(u_A(a_B)) =  -8.1 + 8.9 = 0.8$$
+  $$caso \ 1: \ donde \ d \ = d_b , por \ lo \ que \ \pi_A(a = a_b) = 0.90\, \  a = a_t \ y \ d \neq a \\
+ u(dt,ab,S=1) P(S = 1 | d,a) \pi_D(a=a_b) = 100(0.90)(\pi_D(a=a_b))  = 90\pi_D(a=a_b) \\
+  u(db,ab,S=0) P(S = 0 | d,a) \pi_D(a=a_b) = -10(0.10)(\pi_D(a=a_b))  =\\ 
+  `\pi_D 
+  (a=a_b) = 0.10(9-1) = 0.8$$
+  
+ $$caso 2: \ donde \  a = a_t\ por\  lo\ que \ \pi_D(a = a_t) =0.10\, \ d = d_t y \ d = a \\
+ u(dt,at,S=1) P(S = 1 | d,a) \pi_D(a = a_t)= 40(0.30) \pi_D(a=_t) = 12 \\
+ u(db,at,S=0) P(S = 0 | d,a) \pi_D(a = a_t)= -30(0.7) \pi_D(a=_t) - 21 \\
+\pi_D(a_t) = \pi_D(a_t)(-21 +12) = 0.10(9) = -0.9$$
+
+$$Por \  \ lo \ que \ E(u_A(d_T)) =  0.8 -0.9 = -0.1$$
+ el óptimo de a, es atacar a la estacion de buses. 
+ 
+ 
+ 7) Consider a space of random densities $F_A(s|d,a) from which your generte, for N (sufficiently large) times, densities $f_A(s|d,a):
+ 
+ 
+```{r}
+
+p_dbab =0.30
+p_dbat = 0.90
+p_dtab = 0.30
+p_dtat = 0.90
+N = 500
+k = 300
+alpha = function(p,k){
+p*k
+}
+beta = function(p,k){
+(1-p)*k
+}
+
+set.seed(12345)
+N=1000
+
+f_A = data.frame(
+  f_dbab = rbeta(N,alpha(p_dbab,k),beta(p_dbab,k)),
+  f_dbat = rbeta(N,alpha(p_dbat,k),beta(p_dbat,k)),
+  f_dtab = rbeta(N,alpha(p_dtab,k), beta(p_dtab,k)),
+  f_dtat = rbeta(N,alpha(p_dtat,k), beta(p_dtat, k)))
+)
+
+
+
+```
+ 
+ 
