@@ -5,10 +5,84 @@ date: '2025-06-15'
 output: html_document
 ---
 
+
+
+
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+1) Choose a utility function $u_D(d,a,s)$ for all (d,a,s) and justify your choice. 
+
+La funcion de utilidad $u_D(d,a,s)$ desde el punto de vista del defensor, la podemos ver de las siguientes formas:
+
+- u(db,at,S=0) = 10 (no hay muertes por mas que los defensores no coincidieron con los atacantes en el mismo lugar).
+Consideramos por simetria de costos   u(dt,ab, S=0) = 10
+
+- u(db,at, S=1) = -100  (los defensores no coinciden con los atacantes y hay muertes).
+Consideramos por asimetria de costos u(dt,ab,S=1) = -100
+
+
+- u(db,ab,S=1) = -40 (los defensores  coinciden con los atacantes y hay muertes)
+Consideramos por simetria de costos  u(dt,at, S=1) = -40
+
+
+- u(db,ab, S=0) = 30 (los defensores  coinciden con los atacantes pero no hay muertes), como se asumen mismos costos, es simetrico u(db,ab,S=0) que u(dt,at,S=0)
+
+
+
+
+2) Choose density function $f_D(s|d,a)$ for all consequences s and all pairs (d,a) and justify your choice 
+
+Lo podriamos ver de la siguiente forma:
+
+
+si a = b
+$P_D(S =1| d,a) =0.30$
+$P_D(S=0| d,a) = 0.7$
+
+Si a $\neq$ b
+$P(S=0 | d,a) = 0.1$
+$P(S=1| d,a) = 0.90$
+
+
+3) Choose a density function $\pi_D(a)$ about the possible decision by A and justify choice. This is the case in which D suppose they have sufficient knowledge about A and do not want to consider A as expected utility maximisers, who are possibly guessing about D's decision.
+
+Podemos tener una informacion a priori de que a tiene preferencias en atacar los buses en un 80% es decir $\pi_D(a = a_b) = 0.80 \ y \ \pi_D(a = a_t) = 0.20$.
+
+4) Solve the problem of interest, with $\pi_D(a)$ known, i.e. find the optimal decision $d^{*}_1$
+
+$$d^{*} = arg max_{d \in D} = \sum_{a \in A, s\ \in S} u_d(d,a,s)f_D(s|d,a) \pi_D(a)$$
+$$ Calculamos\  E(u_D(d_B)) = $$
+$$caso \ 1: \ donde \ a \ = a_b , por \ lo \ que \ \pi_D(a = a_b) = 0.80\, \  d = d_b \ y \ d = a \\
+ u(db,ab,S=1) P(S = 1 | d,a) \pi_D(a=a_b) = -40(0.30)(\pi_D(a=a_b))  = -12\pi_D(a=a_b) \\
+  u(db,ab,S=0) P(S = 0 | d,a) \pi_D(a=a_b) = 30(0.70)(\pi_D(a=a_b))  =\\ 
+  21\pi_D 
+  (a=a_b) = 0.8(21-12) = 7.2$$
+  
+ $$caso 2: \ donde \  a = a_t por lo que \pi_D(a = a_t) =0.20\, \ d = d_t y \ d \neq a \\
+ u(db,at,S=1) P(S = 1 | d,a) \pi_D(a = a_t)= -100(0.90) \pi_D(a=_t) = -90 \\
+ u(db,at,S=0) P(S = 0 | d,a) \pi_D(a = a_t)= 10(0.1) \pi_D(a=_t) = 1 \\
+ \sum_{a=a_t \ d \neq a}\pi_D(a_t) = \pi_D(a_t)(-90 +1) = 0.20(-89) = -17.8$$
+
+$$Por \  \ lo \ que \ E(u_D(d_B)) =  7.2 -17.8 = -10.6$$
+$$Ahora  \ calculmos \ E(u_D(d_T))$$
+ 
+ $$caso \ 1: \ donde \ a \ = a_b , por \ lo \ que \ \pi_D(a = a_b) = 0.80\, \  d = d_t \ y \ d \neq a \\
+ u(dt,ab,S=1) P(S = 1 | d,a) \pi_D(a=a_b) = -100(0.90)(\pi_D(a=a_b))  = -90\pi_D(a=a_b) \\
+  u(db,ab,S=0) P(S = 0 | d,a) \pi_D(a=a_b) = 10(0.10)(\pi_D(a=a_b))  =\\ 
+  `\pi_D 
+  (a=a_b) = 0.8(-90+1) = -71.2$$
+  
+ $$caso 2: \ donde \  a = a_t\ por\  lo\ que \ \pi_D(a = a_t) =0.20\, \ d = d_t y \ d = a \\
+ u(dt,at,S=1) P(S = 1 | d,a) \pi_D(a = a_t)= -40(0.30) \pi_D(a=_t) = -12 \\
+ u(db,at,S=0) P(S = 0 | d,a) \pi_D(a = a_t)= 30(0.7) \pi_D(a=_t) = 21 \\
+\pi_D(a_t) = \pi_D(a_t)(21 -12) = 0.20(9) = 1.8$$
+
+$$Por \  \ lo \ que \ E(u_D(d_B)) =  -71.2 +1.8 = -69.4$$
+ 
+ 
 $$E(u_D(d_B)) > E(u_D(d_T)) \ por \ lo \ que\  d^{*} = d_B$$
 Es decir, la mejor decision para el defensor es envir a la policia a la estación de buses, porque el atacante tiene mayor probabilidades de atacar ahi, el es costo esperado de equivocarse es menor que la alternativa.
 
@@ -74,10 +148,12 @@ f_A = data.frame(
   f_dbat = rbeta(N,alpha(p_dbat,k),beta(p_dbat,k)),
   f_dtab = rbeta(N,alpha(p_dtab,k), beta(p_dtab,k)),
   f_dtat = rbeta(N,alpha(p_dtat,k), beta(p_dtat, k)))
-)
+
 
 
 
 ```
  
  
+ 
+
